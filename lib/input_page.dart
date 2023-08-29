@@ -1,5 +1,5 @@
 import 'package:bmi_calculator/bmi_calculations.dart';
-import 'package:bmi_calculator/results_dialog.dart';
+import 'package:bmi_calculator/common_widgets/popup_screen.dart';
 import 'package:flutter/material.dart';
 
 const bottomContainerHeight = 80.0;
@@ -214,20 +214,8 @@ class _InputPageState extends State<InputPage> {
               onPressed: () async => {
                 await showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
-                    title: Text('BMI'),
-                    content: Text('${bmiCalc.calculateBMI(bmiCalc.weight, bmiCalc.height)}'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pop(); // dismisses only the dialog and returns nothing
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  ),
+                  builder: (context) => PopUpScreen(bmiCalc: bmiCalc),
                 ),
-                // bmiCalc.calculateBMI(bmiCalc.weight, bmiCalc.height),
               },
             ),
           ),

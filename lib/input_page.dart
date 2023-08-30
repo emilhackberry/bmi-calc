@@ -137,14 +137,12 @@ class InputPage extends ConsumerWidget {
                             FloatingActionButton(
                                 child: Icon(Icons.remove),
                                 onPressed: () {
-                                  // Comment for Maher, I am trying to change the state here
-                                  ref.read(weightCountProvider.notifier).state.weight = data.weight - 1;
+                                  ref.read(weightCountProvider.notifier).incrementWeight(data.weight--);
                                 }),
                             FloatingActionButton(
                                 child: Icon(Icons.add),
                                 onPressed: () {
-                                  // Comment for Maher, I am trying to change the state here
-                                  ref.read(weightCountProvider.notifier).state.weight = data.weight + 1;
+                                  ref.read(weightCountProvider.notifier).incrementWeight(data.weight++);
                                 }),
                           ],
                         )),

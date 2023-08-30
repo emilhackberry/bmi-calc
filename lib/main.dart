@@ -1,7 +1,8 @@
 import 'package:bmi_calculator/input_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() => runApp(BMICalculator());
+void main() => runApp(ProviderScope(child: BMICalculator()));
 
 class BMICalculator extends StatelessWidget {
   @override

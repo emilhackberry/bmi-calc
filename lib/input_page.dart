@@ -1,6 +1,8 @@
 import 'package:bmi_calculator/bmi_calculations.dart';
 import 'package:bmi_calculator/common_widgets/popup_screen.dart';
+import 'package:bmi_calculator/common_widgets/reusable_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const bottomContainerHeight = 80.0;
 const bottomContainerColor = Color(0xFFEb1555);
@@ -11,7 +13,6 @@ class InputPage extends StatefulWidget {
   _InputPageState createState() => _InputPageState();
 }
 
-//comment
 class _InputPageState extends State<InputPage> {
   String selectionGenderMale = "";
   String selectionGenderFemale = "";
@@ -101,13 +102,13 @@ class _InputPageState extends State<InputPage> {
                   SizedBox(
                     height: 15.0,
                   ),
-                  Text("${bmiCalc.height.round()} cm", style: TextStyle(fontSize: 50.0)),
+                  Text("${bmiCalc.height?.round()} cm", style: TextStyle(fontSize: 50.0)),
                   SizedBox(
                     height: 15.0,
                   ),
                   Row(),
                   Slider(
-                    value: bmiCalc.height,
+                    value: bmiCalc.height ?? 150,
                     max: 200,
                     divisions: 200,
                     onChanged: (double value) {
@@ -133,29 +134,38 @@ class _InputPageState extends State<InputPage> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        Text("${bmiCalc.weight}", style: TextStyle(fontSize: 20.0)),
+                        Consumer(
+                          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                            final bmiResults = ref.watch(bmiResultsProvider);
+                            return (Text(
+                              "${bmiResults.weight}",
+                              style: TextStyle(fontSize: 20.0),
+                            ));
+                          },
+                        ),
                         SizedBox(
                           height: 15.0,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            FloatingActionButton(
-                                child: Icon(Icons.remove),
-                                onPressed: () {
-                                  setState(() {
-                                    bmiCalc.weight = bmiCalc.changeWeightandAge(bmiCalc.weight, "-");
-                                  });
-                                }),
-                            FloatingActionButton(
-                                child: Icon(Icons.add),
-                                onPressed: () {
-                                  setState(() {
-                                    bmiCalc.weight = bmiCalc.changeWeightandAge(bmiCalc.weight, "+");
-                                  });
-                                }),
-                          ],
-                        )
+                        Consumer(
+                          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                            final bmiResults = ref.watch(bmiResultsProvider);
+                            return (Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                FloatingActionButton(
+                                    child: Icon(Icons.remove),
+                                    onPressed: () {
+                                      bmiResults.weight = bmiResults.changeWeightandAge(bmiResults.weight, "-");
+                                    }),
+                                FloatingActionButton(
+                                    child: Icon(Icons.add),
+                                    onPressed: () {
+                                      bmiResults.weight = bmiResults.changeWeightandAge(bmiResults.weight, "+");
+                                    }),
+                              ],
+                            ));
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -220,25 +230,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ReusableCard extends StatelessWidget {
-  ReusableCard({required this.color, this.cardChild});
-
-  final Color color;
-  final Widget? cardChild;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: cardChild,
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(15),
       ),
     );
   }

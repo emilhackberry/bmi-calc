@@ -1,14 +1,18 @@
+import 'dart:ffi';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class BMICalculation {
   String? genderSelection;
   int? weight;
-  double height;
+  double? height;
   int? age;
 
   BMICalculation({
-    required this.genderSelection,
-    required this.weight,
-    required this.height,
-    required this.age,
+    this.genderSelection,
+    this.weight,
+    this.height,
+    this.age,
   });
 
   double calculateBMI(weight, height /*, age, gender*/) {
@@ -27,3 +31,20 @@ class BMICalculation {
     }
   }
 }
+
+final bmiInstanceProvider = Provider<BMICalculation>((ref) => BMICalculation());
+
+//kanske rätt nu?
+final bmiResultsProvider = Provider<BMICalculation>((ref) {
+  BMICalculation bmiResultsObject = BMICalculation(
+    genderSelection: "",
+    weight: 50,
+    height: 150,
+    age: 20,
+  );
+  return bmiResultsObject;
+});
+
+final weightChangeProvider = Provider<int>((ref) {
+  return ref.watch(bmiInstanceProvider).changeWeightandAge(0, "");
+});

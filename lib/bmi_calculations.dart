@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BMICalculation {
@@ -32,19 +30,25 @@ class BMICalculation {
   }
 }
 
-final bmiInstanceProvider = Provider<BMICalculation>((ref) => BMICalculation());
+// final bmiInstanceProvider = Provider<BMICalculation>((ref) => BMICalculation());
 
 //kanske rätt nu?
 final bmiResultsProvider = Provider<BMICalculation>((ref) {
-  BMICalculation bmiResultsObject = BMICalculation(
+  return BMICalculation(
     genderSelection: "",
     weight: 50,
     height: 150,
     age: 20,
   );
-  return bmiResultsObject;
 });
 
-final weightChangeProvider = Provider<int>((ref) {
-  return ref.watch(bmiInstanceProvider).changeWeightandAge(0, "");
-});
+// final weightChangeProvider = Provider<int>((ref) {
+//   return ref.watch(bmiInstanceProvider).changeWeightandAge(0, "");
+// });
+//
+// final weightChangeProvider = Provider<int>((ref) {
+//   return ref.watch(bmiResultsProvider).changeWeightandAge(
+//         ref.read(bmiResultsProvider).weight ?? 0, // Use current weight
+//         "+", // or "-" to decrease weight
+//       );
+// });

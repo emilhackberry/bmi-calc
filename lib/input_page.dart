@@ -8,16 +8,11 @@ const bottomContainerHeight = 80.0;
 const bottomContainerColor = Color(0xFFEb1555);
 const containerColor = Color.fromARGB(255, 74, 45, 125);
 
-class InputPage extends StatefulWidget {
-  @override
-  _InputPageState createState() => _InputPageState();
-}
+class InputPage extends ConsumerWidget {
+  final String selectionGenderMale = "";
+  final String selectionGenderFemale = "";
 
-class _InputPageState extends State<InputPage> {
-  String selectionGenderMale = "";
-  String selectionGenderFemale = "";
-
-  BMICalculation bmiCalc = BMICalculation(
+  final BMICalculation bmiCalc = BMICalculation(
     genderSelection: "",
     weight: 50,
     height: 150,
@@ -25,7 +20,8 @@ class _InputPageState extends State<InputPage> {
   );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bmiResults = ref.watch(bmiResultsProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
@@ -38,11 +34,11 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () => {
-                      setState(() {
-                        selectionGenderMale = "Male selected";
-                        selectionGenderFemale = "";
-                        bmiCalc.genderSelection = "Male";
-                      })
+                      // setState(() {
+                      //   selectionGenderMale = "Male selected";
+                      //   selectionGenderFemale = "";
+                      //   bmiCalc.genderSelection = "Male";
+                      // })
                     },
                     child: ReusableCard(
                       color: containerColor,
@@ -65,11 +61,11 @@ class _InputPageState extends State<InputPage> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () => {
-                      setState(() {
-                        selectionGenderFemale = "Female selected";
-                        selectionGenderMale = "";
-                        bmiCalc.genderSelection = "Female";
-                      })
+                      // setState(() {
+                      //   selectionGenderFemale = "Female selected";
+                      //   selectionGenderMale = "";
+                      //   bmiCalc.genderSelection = "Female";
+                      // })
                     },
                     child: ReusableCard(
                       color: containerColor,
@@ -112,9 +108,9 @@ class _InputPageState extends State<InputPage> {
                     max: 200,
                     divisions: 200,
                     onChanged: (double value) {
-                      setState(() {
-                        bmiCalc.height = value;
-                      });
+                      // setState(() {
+                      //   bmiCalc.height = value;
+                      // });
                     },
                   )
                 ],
@@ -134,38 +130,32 @@ class _InputPageState extends State<InputPage> {
                         SizedBox(
                           height: 15.0,
                         ),
-                        Consumer(
-                          builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                            final bmiResults = ref.watch(bmiResultsProvider);
-                            return (Text(
-                              "${bmiResults.weight}",
-                              style: TextStyle(fontSize: 20.0),
-                            ));
-                          },
-                        ),
+                        (Text(
+                          "${bmiResults.weight}",
+                          style: TextStyle(fontSize: 20.0),
+                        )),
                         SizedBox(
                           height: 15.0,
                         ),
-                        Consumer(
-                          builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                            final bmiResults = ref.watch(bmiResultsProvider);
-                            return (Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                FloatingActionButton(
-                                    child: Icon(Icons.remove),
-                                    onPressed: () {
-                                      bmiResults.weight = bmiResults.changeWeightandAge(bmiResults.weight, "-");
-                                    }),
-                                FloatingActionButton(
-                                    child: Icon(Icons.add),
-                                    onPressed: () {
-                                      bmiResults.weight = bmiResults.changeWeightandAge(bmiResults.weight, "+");
-                                    }),
-                              ],
-                            ));
-                          },
-                        ),
+                        (Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FloatingActionButton(
+                                child: Icon(Icons.remove),
+                                onPressed: () {
+                                  final newWeight = bmiResults.changeWeightandAge(bmiResults.weight, "-");
+                                  ref.read(bmiResultsProvider).weight = newWeight;
+                                  print(newWeight);
+                                }),
+                            FloatingActionButton(
+                                child: Icon(Icons.add),
+                                onPressed: () {
+                                  final newWeight = bmiResults.changeWeightandAge(bmiResults.weight, "+");
+                                  ref.read(bmiResultsProvider).weight = newWeight;
+                                  print(newWeight);
+                                }),
+                          ],
+                        )),
                       ],
                     ),
                   ),
@@ -190,16 +180,16 @@ class _InputPageState extends State<InputPage> {
                             FloatingActionButton(
                                 child: Icon(Icons.remove),
                                 onPressed: () {
-                                  setState(() {
-                                    bmiCalc.age = bmiCalc.changeWeightandAge(bmiCalc.age, "-");
-                                  });
+                                  // setState(() {
+                                  //   bmiCalc.age = bmiCalc.changeWeightandAge(bmiCalc.age, "-");
+                                  // });
                                 }),
                             FloatingActionButton(
                               child: Icon(Icons.add),
                               onPressed: () {
-                                setState(() {
-                                  bmiCalc.age = bmiCalc.changeWeightandAge(bmiCalc.age, "+");
-                                });
+                                // setState(() {
+                                //   bmiCalc.age = bmiCalc.changeWeightandAge(bmiCalc.age, "+");
+                                // });
                               },
                             ),
                           ],

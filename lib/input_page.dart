@@ -12,16 +12,10 @@ class InputPage extends ConsumerWidget {
   final String selectionGenderMale = "";
   final String selectionGenderFemale = "";
 
-  final BMICalculation bmiCalc = BMICalculation(
-    genderSelection: "",
-    weight: 50,
-    height: 150,
-    age: 20,
-  );
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bmiResults = ref.watch(bmiResultsProvider);
+    //final bmiResults = ref.watch(bmiResultsProvider.notifier);
+    final data = ref.watch(weightCountProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI CALCULATOR'),
@@ -98,13 +92,13 @@ class InputPage extends ConsumerWidget {
                   SizedBox(
                     height: 15.0,
                   ),
-                  Text("${bmiCalc.height?.round()} cm", style: TextStyle(fontSize: 50.0)),
+                  Text("${data.height.round()} cm", style: TextStyle(fontSize: 50.0)),
                   SizedBox(
                     height: 15.0,
                   ),
                   Row(),
                   Slider(
-                    value: bmiCalc.height ?? 150,
+                    value: 150, //temp value
                     max: 200,
                     divisions: 200,
                     onChanged: (double value) {
@@ -131,7 +125,7 @@ class InputPage extends ConsumerWidget {
                           height: 15.0,
                         ),
                         (Text(
-                          "${bmiResults.weight}",
+                          "${data.weight}", //this is where the state is supposed to update, but onyl updates on hotreload
                           style: TextStyle(fontSize: 20.0),
                         )),
                         SizedBox(
@@ -143,16 +137,14 @@ class InputPage extends ConsumerWidget {
                             FloatingActionButton(
                                 child: Icon(Icons.remove),
                                 onPressed: () {
-                                  final newWeight = bmiResults.changeWeightandAge(bmiResults.weight, "-");
-                                  ref.read(bmiResultsProvider).weight = newWeight;
-                                  print(newWeight);
+                                  // Comment for Maher, I am trying to change the state here
+                                  ref.read(weightCountProvider.notifier).state.weight = data.weight - 1;
                                 }),
                             FloatingActionButton(
                                 child: Icon(Icons.add),
                                 onPressed: () {
-                                  final newWeight = bmiResults.changeWeightandAge(bmiResults.weight, "+");
-                                  ref.read(bmiResultsProvider).weight = newWeight;
-                                  print(newWeight);
+                                  // Comment for Maher, I am trying to change the state here
+                                  ref.read(weightCountProvider.notifier).state.weight = data.weight + 1;
                                 }),
                           ],
                         )),
@@ -170,7 +162,7 @@ class InputPage extends ConsumerWidget {
                         SizedBox(
                           height: 15.0,
                         ),
-                        Text("${bmiCalc.age}", style: TextStyle(fontSize: 20.0)),
+                        Text("${data.age}", style: TextStyle(fontSize: 20.0)),
                         SizedBox(
                           height: 15.0,
                         ),
@@ -201,24 +193,24 @@ class InputPage extends ConsumerWidget {
               ],
             ),
           ),
-          Container(
-            color: bottomContainerColor,
-            margin: EdgeInsets.only(top: 5.0),
-            width: double.infinity,
-            height: bottomContainerHeight,
-            child: TextButton(
-              child: Text(
-                "Calculate",
-                textScaleFactor: 2.0,
-              ),
-              onPressed: () async => {
-                await showDialog(
-                  context: context,
-                  builder: (context) => PopUpScreen(bmiCalc: bmiCalc),
-                ),
-              },
-            ),
-          ),
+          // Container(
+          //   color: bottomContainerColor,
+          //   margin: EdgeInsets.only(top: 5.0),
+          //   width: double.infinity,
+          //   height: bottomContainerHeight,
+          //   child: TextButton(
+          //     child: Text(
+          //       "Calculate",
+          //       textScaleFactor: 2.0,
+          //     ),
+          //     onPressed: () async => {
+          //       await showDialog(
+          //         context: context,
+          //         builder: (context) => PopUpScreen(bmiCalc: bmiCalc),
+          //       ),
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

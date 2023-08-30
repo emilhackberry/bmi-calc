@@ -1,54 +1,48 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BMICalculation {
+////
+///
+///using the stuff below now
+
+class BMIState {
   String? genderSelection;
-  int? weight;
-  double? height;
-  int? age;
+  int weight;
+  double height;
+  int age;
 
-  BMICalculation({
+  BMIState({
     this.genderSelection,
-    this.weight,
-    this.height,
-    this.age,
+    required this.weight,
+    required this.height,
+    required this.age,
   });
-
-  double calculateBMI(weight, height /*, age, gender*/) {
-    return (weight / (height * height) * 10000).roundToDouble(); //not correct
-  }
-
-  int changeWeightandAge(value, minusPlus) {
-    if (minusPlus == "-") {
-      if (value != 0) {
-        return value - 1;
-      } else {
-        return value - 0;
-      }
-    } else {
-      return value + 1;
-    }
-  }
 }
 
-// final bmiInstanceProvider = Provider<BMICalculation>((ref) => BMICalculation());
-
-//kanske rätt nu?
-final bmiResultsProvider = Provider<BMICalculation>((ref) {
-  return BMICalculation(
-    genderSelection: "",
+///
+///
+final weightCountProvider = StateNotifierProvider<BMICalculation1, BMIState>((ref) {
+  return BMICalculation1(
     weight: 50,
-    height: 150,
-    age: 20,
+    height: 130,
+    age: 25,
+    genderSelection: "",
   );
 });
 
-// final weightChangeProvider = Provider<int>((ref) {
-//   return ref.watch(bmiInstanceProvider).changeWeightandAge(0, "");
-// });
-//
-// final weightChangeProvider = Provider<int>((ref) {
-//   return ref.watch(bmiResultsProvider).changeWeightandAge(
-//         ref.read(bmiResultsProvider).weight ?? 0, // Use current weight
-//         "+", // or "-" to decrease weight
-//       );
-// });
+class BMICalculation1 extends StateNotifier<BMIState> {
+  BMICalculation1({
+    String? genderSelection,
+    int weight = 0,
+    double height = 0,
+    int age = 0,
+  }) : super(BMIState(
+          genderSelection: genderSelection,
+          weight: weight,
+          height: height,
+          age: age,
+        ));
+  void increment() => state.weight++;
+}
+////
+

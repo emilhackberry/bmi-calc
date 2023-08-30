@@ -21,7 +21,7 @@ class BMIState {
   BMIState copyWith({int? weight}) {
     return BMIState(
       genderSelection: genderSelection,
-      weight: weight ?? this.weight, // Use the new weight if provided, else use the existing weight
+      weight: weight ?? this.weight,
       height: height,
       age: age,
     );

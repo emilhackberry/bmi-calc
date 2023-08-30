@@ -51,10 +51,6 @@ class BMICalculation1 extends StateNotifier<BMIState> {
           height: height,
           age: age,
         ));
-  // void incrementWeight(int weight) {
-  //   state = state.copyWith(weight: state.weight++);
-  // }
+
   void incrementWeight(int weight) => state = state.copyWith(weight: state.weight++);
 }
-////
-

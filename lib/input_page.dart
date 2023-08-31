@@ -132,11 +132,12 @@ class InputPage extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             FloatingActionButton(
-                                child: Icon(Icons.remove),
-                                onPressed: () {
-                                  //ref.read(weightCountProvider.notifier).incrementWeight();
-                                  ref.read(weightCountProvider.notifier).incrementWeight(data.weight--);
-                                }),
+                              child: Icon(Icons.remove),
+                              onPressed: () {
+                                //ref.read(weightCountProvider.notifier).incrementWeight();
+                                ref.read(weightCountProvider.notifier).incrementWeight(data.weight--);
+                              },
+                            ),
                             FloatingActionButton(
                               child: Icon(Icons.add),
                               onPressed: () {

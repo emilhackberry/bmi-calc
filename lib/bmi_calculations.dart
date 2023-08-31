@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+// part 'bmi_calculations.g.dart';
 
 class BMIState {
   String? genderSelection;
@@ -23,6 +26,16 @@ class BMIState {
     );
   }
 }
+
+// @riverpod
+// StateNotifier<BMICalculation1, BMIState> weightCount(WeightCountRef ref) {
+//   return BMICalculation1(
+//     weight: 50,
+//     height: 130,
+//     age: 25,
+//     genderSelection: "",
+//   );
+// }
 
 final weightCountProvider = StateNotifierProvider<BMICalculation1, BMIState>((ref) {
   return BMICalculation1(

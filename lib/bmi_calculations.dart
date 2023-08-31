@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-////
-///
-///using the stuff below now
-
 class BMIState {
   String? genderSelection;
   int weight;
@@ -18,18 +14,16 @@ class BMIState {
     required this.age,
   });
 
-  BMIState copyWith({int? weight}) {
+  BMIState copyWith({int? weight, int? age, double? height}) {
     return BMIState(
       genderSelection: genderSelection,
       weight: weight ?? this.weight,
-      height: height,
-      age: age,
+      height: height ?? this.height,
+      age: age ?? this.age,
     );
   }
 }
 
-///
-///
 final weightCountProvider = StateNotifierProvider<BMICalculation1, BMIState>((ref) {
   return BMICalculation1(
     weight: 50,
@@ -52,5 +46,19 @@ class BMICalculation1 extends StateNotifier<BMIState> {
           age: age,
         ));
 
-  void incrementWeight(int weight) => state = state.copyWith(weight: state.weight++);
+  void incrementWeight(int weight) {
+    state = state.copyWith(weight: state.weight++);
+  }
+
+  void incrementAge(int age) {
+    state = state.copyWith(age: state.age++);
+  }
+
+  void changeHeight(double height) {
+    state = state.copyWith(height: state.height = height);
+  }
+
+  int calculateBMI(int weight, double height) {
+    return (weight / (height * height) * 10000).round();
+  }
 }
